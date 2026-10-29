@@ -19,6 +19,6 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     for item in items:
         if item.get_closest_marker("benchmark") is not None:
             if hasattr(item, "_id"):
-                item._id = f"{item.nodeid}[{_PY_TAG}]"
+                item._id = f"{item.nodeid}[{_PY_TAG}]"  # ty: ignore[invalid-assignment]
             else:
                 item._nodeid = f"{item._nodeid}[{_PY_TAG}]"
