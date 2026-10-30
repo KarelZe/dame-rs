@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/KarelZe/dame-rs/compare/0.2.0...0.2.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* replace TODO in pyproject comment with flake8-todos 🐛 ([#40](https://github.com/KarelZe/dame-rs/issues/40)) ([366292b](https://github.com/KarelZe/dame-rs/commit/366292bb06c601c2f5b9a1c2987c9f999f7cdcc1))
+
 ## [0.2.0](https://github.com/KarelZe/dame-rs/compare/0.1.0...0.2.0) (2026-10-22)
 
 
