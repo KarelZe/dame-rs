@@ -18,4 +18,10 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """Append the Python version to each benchmark's node id."""
     for item in items:
         if item.get_closest_marker("benchmark") is not None:
-            item._nodeid = f"{item._nodeid}[{_PY_TAG}]"
+            if hasattr(item, "_nodeid"):
+                item._nodeid = f"{item.nodeid}[{_PY_TAG}]"
+            else:
+                # pytest >= 8 compatibility: nodeid is a property backed by _nodeid
+                # in some versions, or might need to be set via an internal attribute.
+                # If _nodeid isn't present, try setting it anyway.
+                object.__setattr__(item, "_nodeid", f"{item.nodeid}[{_PY_TAG}]")
