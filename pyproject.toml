@@ -88,7 +88,7 @@ select = [
   "RUF", # ruff-specific rules
   "SIM", # Common simplification rules
   "TC",  # Enforce importing certain types in a TYPE_CHECKING block
-  "TD",  # Be diligent with TODO comments
+  "TD",  # flake8-todos
   "TID", # Some good import practices
   "UP",  # Warn if certain things can changed due to newer Python versions
   "W",   # PyCodeStyle warnings
