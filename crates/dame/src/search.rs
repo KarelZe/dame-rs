@@ -604,11 +604,11 @@ impl<E: Evaluate> Searcher<E> {
             if self.check_stop() {
                 return 0;
             }
-            let score = if child.has_captures() {
-                let replies = child.legal_moves();
-                -self.quiesce(&child, &replies, -beta, -alpha, ply + 1)
+            let replies = child.legal_moves();
+            let score = if replies.is_empty() {
+                MATE - ply as i32 - 1
             } else {
-                -self.eval.evaluate(&child)
+                -self.quiesce(&child, &replies, -beta, -alpha, ply + 1)
             };
             if self.stopped {
                 return 0;
