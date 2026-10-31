@@ -1,4 +1,4 @@
-//! A fast international draughts (10x10 checkers) engine.
+//! An international draughts (10x10 checkers) engine.
 //!
 //! The crate is the engine core: board representation, move generation,
 //! search and evaluation. It has no dependencies and no Python coupling; the
@@ -52,3 +52,8 @@ pub use square::Square;
 
 /// The crate version, as declared in `Cargo.toml`.
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+// Compiles the examples in the crate's README, which is its crates.io page.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+struct ReadmeDoctests;

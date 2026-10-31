@@ -5,7 +5,7 @@ build-backend = "maturin"
 [project]
 name = "dame-rs"
 authors = [{ name = "Markus Bilz", email = "github@markusbilz.com" }]
-description = "An extremely fast international draughts engine for Python, written in Rust 🦀."
+description = "An international draughts engine for Python, written in Rust 🦀."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]

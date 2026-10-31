@@ -1,7 +1,8 @@
 [package]
 name = "dame"
-description = "A fast international draughts (10x10 checkers) engine: bitboard move generation, search and evaluation."
-readme = "../../README.md"
+description = "An international draughts (10x10 checkers) engine: bitboard move generation, search and evaluation."
+readme = "README.md"
+documentation = "https://docs.rs/dame"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -11,6 +12,15 @@ repository.workspace = true
 homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
+# Keep the published crate to the Rust sources, README and license.
+include = [
+  "/src/**/*.rs",
+  "/tests/**/*.rs",
+  "/examples/**/*.rs",
+  "/benches/**/*.rs",
+  "/README.md",
+  "/LICENSE",
+]
 
 [dependencies]
 
