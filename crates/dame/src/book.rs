@@ -102,10 +102,16 @@ impl OpeningBook {
 
     /// The candidate moves for `pos`, heaviest first.
     pub fn moves(&self, pos: &Position) -> Vec<BookMove> {
-        let mut moves = self.entries.get(&pos.hash()).cloned().unwrap_or_default();
+        let Some(entries) = self.entries.get(&pos.hash()) else {
+            return Vec::new();
+        };
         // Guard against hash collisions with positions not in the book.
         let legal = pos.legal_moves();
-        moves.retain(|entry| legal.contains(&entry.mv));
+        let mut moves: Vec<BookMove> = entries
+            .iter()
+            .filter(|entry| legal.contains(&entry.mv))
+            .copied()
+            .collect();
         moves.sort_by_key(|entry| std::cmp::Reverse(entry.weight));
         moves
     }
