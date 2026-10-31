@@ -14,7 +14,8 @@ core — prefer Rust-side optimizations over Python wrappers.
 - After editing Rust, rebuild the extension: `uv run maturin develop --release`
 
 ## Project Structure
-- `crates/dame/` — engine core (no dependencies, no Python)
+- `crates/dame/` — engine core (no dependencies, no Python), published to
+  crates.io as `dame`
 - `crates/dame-cli/` — `dame` command: Hub protocol and terminal play; a library
   too, so the Python package can run it as its `dame` script
 - `crates/dame-python/` — PyO3 bindings, built as `dame._core`
@@ -77,7 +78,7 @@ measured on the same hardware, kept only if it wins.
   change twice. Rebase merges skip the title check, so avoid them as well.
 - release-please keeps a release PR open that bumps the version and
   `CHANGELOG.md`. Merging it tags the release, creates the GitHub Release and
-  publishes the wheels to PyPI. The release also gets the wheels and the
+  publishes the wheels to PyPI and the `dame` crate to crates.io. The release also gets the wheels and the
   macOS app's `.dmg`.
 - Never bump versions or push tags by hand.
 
