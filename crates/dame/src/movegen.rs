@@ -53,6 +53,23 @@ pub(crate) fn has_captures(pos: &Position) -> bool {
     })
 }
 
+/// Whether the side to move has a non-capturing move.
+pub(crate) fn has_quiet_moves(pos: &Position) -> bool {
+    let us = pos.side_to_move();
+    let empty = pos.empty();
+    let forward: [i32; 2] = match us {
+        Color::White => [-6, -5],
+        Color::Black => [5, 6],
+    };
+    let (men, kings) = (pos.men(us), pos.kings(us));
+    forward
+        .into_iter()
+        .any(|dir| !(men.shift(dir) & empty).is_empty())
+        || DIRECTIONS
+            .into_iter()
+            .any(|dir| !(kings.shift(dir) & empty).is_empty())
+}
+
 /// Returns the first square beyond `from` in direction `dir` that is not in
 /// `empty`; it may be off the board, i.e. a ghost or out-of-range bit.
 #[inline(always)]
@@ -335,6 +352,28 @@ mod tests {
             let pos = Position::from_fen(fen).unwrap();
             let generated = pos.legal_moves().first().is_some_and(|mv| mv.is_capture());
             assert_eq!(pos.has_captures(), generated, "{fen}");
+        }
+    }
+
+    #[test]
+    fn has_quiet_moves_agrees_with_generation() {
+        // Random games played to the end cover blocked and empty sides too.
+        let mut seed = 0x9E37_79B9_7F4A_7C15_u64;
+        for _ in 0..200 {
+            let mut pos = Position::initial();
+            loop {
+                let moves = pos.legal_moves();
+                if !pos.has_captures() {
+                    assert_eq!(pos.has_quiet_moves(), !moves.is_empty(), "{}", pos.fen());
+                }
+                if moves.is_empty() {
+                    break;
+                }
+                seed ^= seed << 13;
+                seed ^= seed >> 7;
+                seed ^= seed << 17;
+                pos = pos.after(moves[(seed % moves.len() as u64) as usize]);
+            }
         }
     }
 }
