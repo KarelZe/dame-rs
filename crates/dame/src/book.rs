@@ -107,14 +107,11 @@ impl OpeningBook {
         };
         // Guard against hash collisions with positions not in the book.
         let legal = pos.legal_moves();
-
-        let mut moves: Vec<BookMove> = Vec::with_capacity(entries.len());
-        for entry in entries {
-            if legal.contains(&entry.mv) {
-                moves.push(*entry);
-            }
-        }
-
+        let mut moves: Vec<BookMove> = entries
+            .iter()
+            .filter(|entry| legal.contains(&entry.mv))
+            .copied()
+            .collect();
         moves.sort_by_key(|entry| std::cmp::Reverse(entry.weight));
         moves
     }
