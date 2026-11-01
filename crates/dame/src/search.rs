@@ -604,11 +604,15 @@ impl<E: Evaluate> Searcher<E> {
             if self.check_stop() {
                 return 0;
             }
-            let replies = child.legal_moves();
-            let score = if replies.is_empty() {
-                MATE - ply as i32 - 1
+            // Only captures extend quiescence, so quiet replies need not be
+            // generated: it is enough to know that one exists.
+            let score = if child.has_captures() {
+                -self.quiesce(&child, &child.legal_moves(), -beta, -alpha, ply + 1)
+            } else if child.has_quiet_moves() {
+                self.seldepth = self.seldepth.max(ply + 1);
+                -self.eval.evaluate(&child)
             } else {
-                -self.quiesce(&child, &replies, -beta, -alpha, ply + 1)
+                MATE - ply as i32 - 1
             };
             if self.stopped {
                 return 0;

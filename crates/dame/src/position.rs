@@ -283,6 +283,12 @@ impl Position {
         movegen::has_captures(self)
     }
 
+    /// Whether the side to move has a non-capturing move, ignoring that a
+    /// capture would make it illegal.
+    pub fn has_quiet_moves(&self) -> bool {
+        movegen::has_quiet_moves(self)
+    }
+
     /// Plays `mv`, which must be legal in this position.
     ///
     /// Legality is not checked; playing an illegal move leaves the position
