@@ -42,6 +42,9 @@ measured on the same hardware, kept only if it wins.
 2. State a single, testable hypothesis before editing (e.g. "precomputed king
    rays cut king-move generation time by 20%"). One change per experiment.
 3. Re-run the same benchmark on identical hardware and a quiet system.
+   `python scripts/ab_bench.py --a main --b <ref>` builds both refs and
+   interleaves their runs; it reports median + IQR and flags changed node
+   counts.
    Report median + IQR, not mean.
 4. If the change is under 3% or within noise, REVERT.
 5. Verify correctness with the perft suite before keeping any win.
