@@ -15,6 +15,9 @@ categories = ["games", "command-line-utilities"]
 [[bin]]
 name = "dame"
 path = "src/main.rs"
+# Same name as the engine crate: documenting both would write to the same
+# `target/doc/dame/` and race (fails on Windows). The binary is a thin wrapper.
+doc = false
 
 [dependencies]
 dame = { workspace = true }
