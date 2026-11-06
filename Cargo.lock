@@ -277,14 +277,14 @@ checksum = "460fbee9c2c2f33933d720630a6a0bac33ba7053db5344fac858d4b8952d77d5"
 
 [[package]]
 name = "dame"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "codspeed-criterion-compat",
 ]
 
 [[package]]
 name = "dame-cli"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "clap",
  "dame",
@@ -292,7 +292,7 @@ dependencies = [
 
 [[package]]
 name = "dame-macos"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "dame",
  "dispatch2",
@@ -303,7 +303,7 @@ dependencies = [
 
 [[package]]
 name = "dame-python"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "dame",
  "dame-cli",

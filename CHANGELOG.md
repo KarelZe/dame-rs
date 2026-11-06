@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.1](https://github.com/KarelZe/dame-rs/compare/0.2.0...0.2.1) (2026-11-06)
+
+
+### Bug Fixes
+
+* replace TODO in pyproject comment with flake8-todos 🐛 ([#40](https://github.com/KarelZe/dame-rs/issues/40)) ([366292b](https://github.com/KarelZe/dame-rs/commit/366292bb06c601c2f5b9a1c2987c9f999f7cdcc1))
+* skip docs for the dame binary to avoid rustdoc output collision 🐛 ([#53](https://github.com/KarelZe/dame-rs/issues/53)) ([8d22609](https://github.com/KarelZe/dame-rs/commit/8d226091afe2b4255c02659dcb01cf3b6f0b9908))
+
+
+### Performance
+
+* skip legal move generation for positions not in the book ⚡ ([#42](https://github.com/KarelZe/dame-rs/issues/42)) ([0b5f327](https://github.com/KarelZe/dame-rs/commit/0b5f327735d7f90d838193253e9cafde2e473557))
+* skip quiet move generation in quiescence search ⚡ ([#49](https://github.com/KarelZe/dame-rs/issues/49)) ([6adb037](https://github.com/KarelZe/dame-rs/commit/6adb0376aaf6586dcb23dbca501dd2988008bf98))
+
 ## [0.2.0](https://github.com/KarelZe/dame-rs/compare/0.1.0...0.2.0) (2026-10-22)
 
 
