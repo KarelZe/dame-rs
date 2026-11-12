@@ -4,7 +4,7 @@ name: release
 # bumps Cargo.toml and CHANGELOG.md from the conventional commits since the
 # last release. Merging that PR tags the release and creates the GitHub
 # Release; the jobs below then build the wheels and publish them to PyPI,
-# and attach the wheels and the macOS app's disk image to the release.
+# publish the `dame` crate to crates.io, and attach the wheels and the macOS app's disk image to the release.
 # Everything lives in one workflow because tags created with GITHUB_TOKEN
 # do not trigger other workflows.
 on:
@@ -275,6 +275,43 @@ jobs:
           merge-multiple: true
           path: dist
       - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # release/v1
+
+  # Gated, like PyPI, on every build and on Test PyPI: crates.io versions can
+  # only be yanked, never replaced.
+  publish-crates-io:
+    name: Publish — crates.io
+    needs: [version, publish-test-pypi]
+    runs-on: ubuntu-latest
+    environment: crates-io
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.version.outputs.tag }}
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      # Re-runs of a release must not fail on a version that is already up.
+      - id: check
+        name: Check whether the version is already on crates.io
+        run: |
+          version=$(cargo metadata --no-deps --format-version 1 \
+            | jq -r '.packages[] | select(.name == "dame") | .version')
+          status=$(curl -s -o /dev/null -w '%{http_code}' \
+            -A "dame release (https://github.com/$GITHUB_REPOSITORY)" \
+            "https://crates.io/api/v1/crates/dame/$version")
+          if [ "$status" = 200 ]; then
+            echo "dame $version is already on crates.io"
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+      # Trusted publishing: exchanges the OIDC token for a short-lived crates.io token.
+      - id: auth
+        if: steps.check.outputs.published != 'true'
+        uses: rust-lang/crates-io-auth-action@3268eb413133e2960fa4ae0e963ca76380c54cd9 # v1.0.6
+      - if: steps.check.outputs.published != 'true'
+        run: cargo publish --locked -p dame
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
 
   github-release:
     name: Attach wheels and the macOS app to GitHub Release

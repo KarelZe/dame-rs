@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`dame`[^name] is an extremely fast [international draughts](https://en.wikipedia.org/wiki/International_draughts)
+`dame`[^name] is an [international draughts](https://en.wikipedia.org/wiki/International_draughts)
 (10x10 checkers) engine written in Rust 🦀, with a pythonic API.
 
 [^name]: *Dame* is German for draughts (checkers), and also for a king in the game: a
@@ -42,6 +42,24 @@ print(board)
 
 The search runs without the GIL and reports progress through an optional
 `info` callback. See the [API Reference](api.md).
+
+### Rust
+
+The engine core is also published as the [`dame`](https://crates.io/crates/dame) crate:
+
+```bash
+cargo add dame
+```
+
+```rust
+use dame::{Position, perft};
+
+let pos = Position::initial();
+assert_eq!(pos.legal_moves().len(), 9);
+assert_eq!(perft(&pos, 2), 81);
+```
+
+The crate requires Rust 1.88 or newer. See [docs.rs](https://docs.rs/dame) for details.
 
 To play against the engine, use the [command line](cli.md) or the
 [macOS app](macos.md).
